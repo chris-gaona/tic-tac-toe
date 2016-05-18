@@ -18,26 +18,47 @@ $(function() {
 
     togglePlayer();
 
-
   });
 
   //Play alternates between X and O.
   //The current player is indicated at the top of the page
   function togglePlayer() {
+    activePlayer('player1');
     $('#player1').addClass('active');
 
     $('.boxes li').on('click', function() {
       if ($('#player1').hasClass('active')) {
         $('#player1').removeClass('active');
         $('#player2').addClass('active');
+
+        activePlayer('player2');
+
       } else {
         $('#player2').removeClass('active');
         $('#player1').addClass('active');
+
+        activePlayer('player1');
       }
 
     });
   }
 
+  //When the current player mouses over an empty square on the board, it's symbol the X or O should appear on the square. You can do this using the x.svg or o.svg graphics (hint use JavaScript to set the background-image property for that box.)
+  function activePlayer(player) {
+    if (player === 'player1') {
+      $('.boxes li').hover(function() {
+        $(this).siblings().css('background-image', 'none');
+        $(this).css('background-image', 'url(./img/o.svg)');
+      });
+
+    } else if (player === 'player2') {
+      $('.boxes li').hover(function() {
+        $(this).siblings().css('background-image', 'none');
+        $(this).css('background-image', 'url(./img/x.svg)');
+      });
+
+    }
+  }
 
 
 });

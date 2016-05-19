@@ -121,6 +121,13 @@ h1 {
     background: #FFA000; }
   #player2.active {
     background: #3688C3; }
+  .players span {
+    position: relative;
+    top: -13px;
+    margin-left: 15px;
+    font-size: 20px;
+    color: #000;
+  }
 
 .boxes {
   width: 480px;

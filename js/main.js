@@ -43,12 +43,16 @@ $(function() {
         activePlayer('player2');
         $(this).addClass('box-filled-1');
 
+        checkWin('box-filled-1');
+
       } else {
         $('#player2').removeClass('active');
         $('#player1').addClass('active');
 
         activePlayer('player1');
         $(this).addClass('box-filled-2');
+
+        checkWin('box-filled-2');
       } //if statement
 
     });
@@ -60,6 +64,7 @@ $(function() {
       $('.boxes li').hover(function() {
         //Players can only click on empty squares.
         if ($(this).hasClass('box-filled-1') || $(this).hasClass('box-filled-2')) {
+          $(this).css('cursor', 'auto');
           return;
         }
 
@@ -71,6 +76,7 @@ $(function() {
       $('.boxes li').hover(function() {
         //Players can only click on empty squares.
         if ($(this).hasClass('box-filled-1') || $(this).hasClass('box-filled-2')) {
+          $(this).css('cursor', 'auto');
           return;
         }
 
@@ -81,6 +87,25 @@ $(function() {
     } //if statement
   } //activePlayer()
 
+  //The game ends when one player has three of their symbols in a row either horizontally, vertically or diagonally. If all of the squares are filled and no players have three in a row the game is a tie.
+  function checkWin(className) {
+    console.log(className);
+    if ($('.boxes li:first-child').hasClass(className) && $('.boxes li:nth-of-type(2)').hasClass(className) && $('.boxes li:nth-of-type(3)').hasClass(className) ||
+      $('.boxes li:nth-of-type(4)').hasClass(className) && $('.boxes li:nth-of-type(5)').hasClass(className) && $('.boxes li:nth-of-type(6)').hasClass(className) ||
+      $('.boxes li:nth-of-type(7)').hasClass(className) && $('.boxes li:nth-of-type(8)').hasClass(className) && $('.boxes li:nth-of-type(9)').hasClass(className) ||
+      $('.boxes li:nth-of-type(1)').hasClass(className) && $('.boxes li:nth-of-type(5)').hasClass(className) && $('.boxes li:nth-of-type(9)').hasClass(className) ||
+      $('.boxes li:nth-of-type(3)').hasClass(className) && $('.boxes li:nth-of-type(5)').hasClass(className) && $('.boxes li:nth-of-type(7)').hasClass(className) ||
+      $('.boxes li:nth-of-type(1)').hasClass(className) && $('.boxes li:nth-of-type(4)').hasClass(className) && $('.boxes li:nth-of-type(7)').hasClass(className) ||
+      $('.boxes li:nth-of-type(2)').hasClass(className) && $('.boxes li:nth-of-type(5)').hasClass(className) && $('.boxes li:nth-of-type(8)').hasClass(className) ||
+      $('.boxes li:nth-of-type(3)').hasClass(className) && $('.boxes li:nth-of-type(6)').hasClass(className) && $('.boxes li:nth-of-type(9)').hasClass(className)) {
 
+      console.log(className + ' wins!');
+
+    } else {
+      console.log('nope!');
+    } //if statement
+  } //checkWin()
+
+  
 
 });

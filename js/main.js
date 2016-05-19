@@ -100,12 +100,20 @@ $(function() {
       $('.boxes li:nth-of-type(3)').hasClass(className) && $('.boxes li:nth-of-type(6)').hasClass(className) && $('.boxes li:nth-of-type(9)').hasClass(className)) {
 
       console.log(className + ' wins!');
+      
+      //Add programming so that when the game ends, the board disappears and the game end screen appears.
+      if (className === 'box-filled-1') {
+        $('body').html('<div class="screen screen-win screen-win-one" id="finish"><header><h1>Tic Tac Toe</h1><p class="message">Winner</p><a href="#" class="button">New game</a></header></div>');
+
+      } else if (className === 'box-filled-2') {
+        $('body').html('<div class="screen screen-win screen-win-two" id="finish"><header><h1>Tic Tac Toe</h1><p class="message">Winner</p><a href="#" class="button">New game</a></header></div>');
+      }
 
     } else {
       console.log('nope!');
     } //if statement
   } //checkWin()
 
-  
+
 
 });

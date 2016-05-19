@@ -22,43 +22,65 @@ $(function() {
 
   //Play alternates between X and O.
   //The current player is indicated at the top of the page
+
+  //When the player clicks on an empty square, attach the
+  //class box-filled-1 (for O) or box-filled-2 (for X)
+  ///to the square.
   function togglePlayer() {
-    activePlayer('player1');
     $('#player1').addClass('active');
+    activePlayer('player1');
 
     $('.boxes li').on('click', function() {
+      //Players can only click on empty squares.
+      if ($(this).hasClass('box-filled-1') || $(this).hasClass('box-filled-2')) {
+        return;
+      }
+
       if ($('#player1').hasClass('active')) {
         $('#player1').removeClass('active');
         $('#player2').addClass('active');
 
         activePlayer('player2');
+        $(this).addClass('box-filled-1');
 
       } else {
         $('#player2').removeClass('active');
         $('#player1').addClass('active');
 
         activePlayer('player1');
-      }
+        $(this).addClass('box-filled-2');
+      } //if statement
 
     });
-  }
+  } //togglePlayer()
 
-  //When the current player mouses over an empty square on the board, it's symbol the X or O should appear on the square. You can do this using the x.svg or o.svg graphics (hint use JavaScript to set the background-image property for that box.)
+  //When the current player mouses over an empty square on the board, it's symbol the X or O should appear on the square.
   function activePlayer(player) {
     if (player === 'player1') {
       $('.boxes li').hover(function() {
-        $(this).siblings().css('background-image', 'none');
+        //Players can only click on empty squares.
+        if ($(this).hasClass('box-filled-1') || $(this).hasClass('box-filled-2')) {
+          return;
+        }
+
+        $(this).siblings().css('background-image', '');
         $(this).css('background-image', 'url(./img/o.svg)');
       });
 
     } else if (player === 'player2') {
       $('.boxes li').hover(function() {
-        $(this).siblings().css('background-image', 'none');
+        //Players can only click on empty squares.
+        if ($(this).hasClass('box-filled-1') || $(this).hasClass('box-filled-2')) {
+          return;
+        }
+
+        $(this).siblings().css('background-image', '');
         $(this).css('background-image', 'url(./img/x.svg)');
       });
 
-    }
-  }
+    } //if statement
+  } //activePlayer()
+
 
 
 });

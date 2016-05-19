@@ -1,8 +1,9 @@
+//Use the module pattern to wrap all of your JavaScript code into a single global variable or an immediately invoked function.
 $(function() {
   'use strict';
 
   //When the page loads, the startup screen appears.
-  $('body').html('<div class="screen screen-start" id="start"><header><h1>Tic Tac Toe</h1><a href="#" class="button">Start game</a></header></div>');
+  $('body').html('<div class="screen screen-start" id="start"><header><h1>Tic Tac Toe</h1><input type="text" placeholder="Your name"><a href="#" class="button">Start game</a></header></div>');
 
   //when the player clicks the start button the start
   //screen disappears, the board appears,
@@ -11,6 +12,9 @@ $(function() {
   //Add programming so that when a player pushes the "New Game" button, the board appears again, empty and a new game begins.
   function newGame() {
     $('.button').on('click', function() {
+      var userName = $('input[type="text"]').val();
+      console.log(userName);
+
       $('body').html('<div class="board" id="board">' +
         '<header>' +
           '<h1>Tic Tac Toe</h1>' +

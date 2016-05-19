@@ -43,7 +43,7 @@ $(function() {
         activePlayer('player2');
         $(this).addClass('box-filled-1');
 
-        checkWin('box-filled-1');
+        checkForTie();
 
       } else {
         $('#player2').removeClass('active');
@@ -52,7 +52,7 @@ $(function() {
         activePlayer('player1');
         $(this).addClass('box-filled-2');
 
-        checkWin('box-filled-2');
+        checkForTie();
       } //if statement
 
     });
@@ -87,9 +87,9 @@ $(function() {
     } //if statement
   } //activePlayer()
 
-  //The game ends when one player has three of their symbols in a row either horizontally, vertically or diagonally. If all of the squares are filled and no players have three in a row the game is a tie.
+  //The game ends when one player has three of their symbols in a
+  //row either horizontally, vertically or diagonally.
   function checkWin(className) {
-    console.log(className);
     if ($('.boxes li:first-child').hasClass(className) && $('.boxes li:nth-of-type(2)').hasClass(className) && $('.boxes li:nth-of-type(3)').hasClass(className) ||
       $('.boxes li:nth-of-type(4)').hasClass(className) && $('.boxes li:nth-of-type(5)').hasClass(className) && $('.boxes li:nth-of-type(6)').hasClass(className) ||
       $('.boxes li:nth-of-type(7)').hasClass(className) && $('.boxes li:nth-of-type(8)').hasClass(className) && $('.boxes li:nth-of-type(9)').hasClass(className) ||
@@ -100,7 +100,7 @@ $(function() {
       $('.boxes li:nth-of-type(3)').hasClass(className) && $('.boxes li:nth-of-type(6)').hasClass(className) && $('.boxes li:nth-of-type(9)').hasClass(className)) {
 
       console.log(className + ' wins!');
-      
+
       //Add programming so that when the game ends, the board disappears and the game end screen appears.
       if (className === 'box-filled-1') {
         $('body').html('<div class="screen screen-win screen-win-one" id="finish"><header><h1>Tic Tac Toe</h1><p class="message">Winner</p><a href="#" class="button">New game</a></header></div>');
@@ -109,11 +109,37 @@ $(function() {
         $('body').html('<div class="screen screen-win screen-win-two" id="finish"><header><h1>Tic Tac Toe</h1><p class="message">Winner</p><a href="#" class="button">New game</a></header></div>');
       }
 
+      return true;
+
     } else {
-      console.log('nope!');
+      // console.log('nope!');
+
+      return false;
+
     } //if statement
   } //checkWin()
 
+  //If all of the squares are filled and no players have three in a row the game is a tie.
+  function checkForTie() {
+    if (checkWin('box-filled-1') === false && checkWin('box-filled-2') === false) {
+      var tie = 0;
+      var divArray = ['.boxes li:nth-of-type(1)', '.boxes li:nth-of-type(2)', '.boxes li:nth-of-type(3)', '.boxes li:nth-of-type(4)', '.boxes li:nth-of-type(5)', '.boxes li:nth-of-type(6)', '.boxes li:nth-of-type(7)', '.boxes li:nth-of-type(8)', '.boxes li:nth-of-type(9)'];
 
+      for (var i = 0; i < divArray.length; i++) {
+        if ($(divArray[i]).hasClass('box-filled-1') || $(divArray[i]).hasClass('box-filled-2')) {
+          tie += 1;
+        }
+      }
+
+      if (tie === 9) {
+        $('body').html('<div class="screen screen-win screen-win-tie" id="finish"><header><h1>Tic Tac Toe</h1><p class="message">It\'s a Tie!</p><a href="#" class="button">New game</a></header></div>');
+
+      } else {
+        checkWin('box-filled-1');
+        checkWin('box-filled-2');
+      }
+
+    }//if statement
+  } //checkForTie()
 
 });

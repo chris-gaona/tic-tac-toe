@@ -1,35 +1,39 @@
-//Use the module pattern to wrap all of your JavaScript code into a single global variable or an immediately invoked function.
+//Uses the module pattern to wrap code into a single global
+//variable or an immediately invoked function.
 $(function() {
   'use strict';
 
   //When the page loads, the startup screen appears.
-  //Let a player add their name before the game starts
-  $('body').html('<div class="screen screen-start" id="start"><header><label for="input">Your Name:</label><input type="text" id="input"><h1>Tic Tac Toe</h1><a href="#" class="button start-game">Start game</a><a href="#" class="button play-computer">Play Computer</a></header></div>');
+  //Lets a player add their name before the game starts
+  $('body').html('<div class="screen screen-start" id="start"><header><label for="input">Your Name:</label><input type="text" id="input" placeholder="Chris"><h1>Tic Tac Toe</h1><a href="#" class="button start-game">Start game</a><a href="#" class="button play-computer">Play Computer</a></header></div>');
 
   //when the player clicks the start button the start
   //screen disappears, the board appears,
   //and the game begins
-
-  //Add programming so that when a player pushes the "New Game" button, the board appears again, empty and a new game begins.
   function newGame(userFirstValue, userSecondValue) {
     $('.button').on('click', function() {
       //Name appears while the game is playing
-      //The name is displayed for the winning player
       var userNameFirst;
       var userNameSecond;
 
+      //checks if current player is playing for the first time
+      //or wants to play another game
       if (userFirstValue !== undefined) {
         userNameFirst = userFirstValue;
       } else {
+        //gets user name from start page
         userNameFirst = $('input[type="text"]').val();
       }
 
+      //checks if current player is playing for the first time
+      //or wants to play another game
       if (userSecondValue !== undefined) {
         userNameSecond = userSecondValue;
       } else {
         userNameSecond = '';
       }
 
+      //adds board game
       $('body').html('<div class="board" id="board">' +
         '<header>' +
           '<h1>Tic Tac Toe</h1>' +
@@ -39,8 +43,11 @@ $(function() {
         '<ul class="boxes"><li class="box"></li><li class="box"></li><li class="box"></li><li class="box"></li><li class="box"></li><li class="box"></li><li class="box"></li><li class="box"></li> <li class="box"></li></ul>' +
       '</div>');
 
+      //starts game with user playing user
       if ($(this).hasClass('start-game') || userSecondValue === '') {
         togglePlayer();
+
+      //starts game with user playing computer
       } else if ($(this).hasClass('play-computer') || userSecondValue === 'Computer') {
         playComputer();
       }
@@ -56,15 +63,18 @@ $(function() {
   //class box-filled-1 (for O) or box-filled-2 (for X)
   ///to the square.
   function togglePlayer() {
+    //makes player 1 active
     $('#player1').addClass('active');
     activePlayer('player1');
 
+    //on click of li
     $('.boxes li').on('click', function() {
       //Players can only click on empty squares.
       if ($(this).hasClass('box-filled-1') || $(this).hasClass('box-filled-2')) {
         return;
       }
 
+      //creates toggle between players
       if ($('#player1').hasClass('active')) {
         $('#player1').removeClass('active');
         $('#player2').addClass('active');
@@ -72,6 +82,7 @@ $(function() {
         activePlayer('player2');
         $(this).addClass('box-filled-1');
 
+        //checks to see if there was a tie or player 1 wins
         checkForTie();
 
       } else {
@@ -81,12 +92,16 @@ $(function() {
         activePlayer('player1');
         $(this).addClass('box-filled-2');
 
+        //checks to see if there was a tie or player 2 wins
         checkForTie();
       } //if statement
 
     });
   } //togglePlayer()
 
+  //Play alternates between X & O where X is the Computer
+  //& O is the user
+  //The current player is indicated at the top of the page
   function playComputer() {
     $('span.username2').html('Computer');
     $('#player1').addClass('active');
@@ -99,13 +114,11 @@ $(function() {
       }
 
       if ($('#player1').hasClass('active')) {
-        // $('#player1').removeClass('active');
-        // $('#player2').addClass('active');
-
-        // activePlayer('player2');
         $(this).addClass('box-filled-1');
 
+        //checks to see if there was a tie or if a player wins
         checkForTie();
+        //adds computer move after user clicks
         moveComputer();
 
       }//if statement
@@ -117,24 +130,26 @@ $(function() {
   function activePlayer(player) {
     if (player === 'player1') {
       $('.boxes li').hover(function() {
-        //Players can only click on empty squares.
+        //Players can only hover on empty squares.
         if ($(this).hasClass('box-filled-1') || $(this).hasClass('box-filled-2')) {
           $(this).css('cursor', 'auto');
           return;
         }
 
+        //adds background image on hover
         $(this).siblings().css('background-image', '');
         $(this).css('background-image', 'url(./img/o.svg)');
       });
 
     } else if (player === 'player2') {
       $('.boxes li').hover(function() {
-        //Players can only click on empty squares.
+        //Players can only hover on empty squares.
         if ($(this).hasClass('box-filled-1') || $(this).hasClass('box-filled-2')) {
           $(this).css('cursor', 'auto');
           return;
         }
 
+        //adds background image on hover
         $(this).siblings().css('background-image', '');
         $(this).css('background-image', 'url(./img/x.svg)');
       });
@@ -145,6 +160,7 @@ $(function() {
   //The game ends when one player has three of their symbols in a
   //row either horizontally, vertically or diagonally.
   function checkWin(className) {
+    //checks all option to win
     if ($('.boxes li:first-child').hasClass(className) && $('.boxes li:nth-of-type(2)').hasClass(className) && $('.boxes li:nth-of-type(3)').hasClass(className) ||
       $('.boxes li:nth-of-type(4)').hasClass(className) && $('.boxes li:nth-of-type(5)').hasClass(className) && $('.boxes li:nth-of-type(6)').hasClass(className) ||
       $('.boxes li:nth-of-type(7)').hasClass(className) && $('.boxes li:nth-of-type(8)').hasClass(className) && $('.boxes li:nth-of-type(9)').hasClass(className) ||
@@ -157,7 +173,10 @@ $(function() {
       var userFirstValue = $('.username1').text();
       var userSecondValue = $('.username2').text();
 
-      //Add programming so that when the game ends, the board disappears and the game end screen appears.
+      //Adds programming so that when the game ends, the board
+      //disappears and the game end screen appears.
+      //The name is displayed for the winning player if there
+      //is a name, otherwise it just says winner
       if (className === 'box-filled-1') {
 
         if (userFirstValue !== '') {
@@ -166,6 +185,9 @@ $(function() {
           $('body').html('<div class="screen screen-win screen-win-one" id="finish"><header><h1>Tic Tac Toe</h1><p class="message">Winner</p><a href="#" class="button">New game</a></header></div>');
         }
 
+        //Adds programming so that when a player pushes the "New
+        //Game" button, the board appears again, empty and a new
+        //game begins.
         newGame(userFirstValue, userSecondValue);
 
       } else if (className === 'box-filled-2') {
@@ -176,39 +198,46 @@ $(function() {
           $('body').html('<div class="screen screen-win screen-win-two" id="finish"><header><h1>Tic Tac Toe</h1><p class="message">Winner</p><a href="#" class="button">New game</a></header></div>');
         }
 
+        //Adds programming so that when a player pushes the "New
+        //Game" button, the board appears again, empty and a new
+        //game begins.
         newGame(userFirstValue, userSecondValue);
       }
 
       return true;
 
     } else {
-      // console.log('nope!');
 
       return false;
 
     } //if statement
   } //checkWin()
 
-  //If all of the squares are filled and no players have three in a row the game is a tie.
+  //If all of the squares are filled & no players have three in a row the game is a tie.
   function checkForTie() {
     var userFirstValue = $('.username1').text();
     var userSecondValue = $('.username2').text();
 
     if (checkWin('box-filled-1') === false && checkWin('box-filled-2') === false) {
       var tie = 0;
+      //adds array with all li items
       var divArray = ['.boxes li:nth-of-type(1)', '.boxes li:nth-of-type(2)', '.boxes li:nth-of-type(3)', '.boxes li:nth-of-type(4)', '.boxes li:nth-of-type(5)', '.boxes li:nth-of-type(6)', '.boxes li:nth-of-type(7)', '.boxes li:nth-of-type(8)', '.boxes li:nth-of-type(9)'];
 
+      //iterates through divArray
       for (var i = 0; i < divArray.length; i++) {
+        //if all box is filled add 1 to tie
         if ($(divArray[i]).hasClass('box-filled-1') || $(divArray[i]).hasClass('box-filled-2')) {
           tie += 1;
         }
       }
 
+      //if all boxes are filled display tie page
       if (tie === 9) {
         $('body').html('<div class="screen screen-win screen-win-tie" id="finish"><header><h1>Tic Tac Toe</h1><p class="message">It\'s a Tie!</p><a href="#" class="button">New game</a></header></div>');
 
         newGame(userFirstValue, userSecondValue);
 
+      //if there is no tie yet...let game continue
       } else {
         checkWin('box-filled-1');
         checkWin('box-filled-2');
@@ -217,19 +246,25 @@ $(function() {
     }//if statement
   } //checkForTie()
 
-  //Add programming to support playing against the computer.
+  //Adds programming to support playing against the computer.
   //Only one player plays, the other is controlled by your
   //programming.
   function moveComputer() {
     if (checkWin('box-filled-1') === false) {
 
+      //creates random number between 1 & 9
       var random = Math.floor(Math.random() * 9);
+      //finds appropriate li item
       var randomDiv = $('.boxes li').eq(random);
 
+      //if the random result has either of the following classes
+      //call this function again to get new random number
       if ($(randomDiv).hasClass('box-filled-1') || $(randomDiv).hasClass('box-filled-2')) {
         moveComputer();
       } else {
+        //adds computer selection
         $(randomDiv).addClass('box-filled-2');
+        //checks for tie or if computer wins
         checkForTie();
       }
 

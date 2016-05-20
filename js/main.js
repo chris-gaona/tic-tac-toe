@@ -62,22 +62,25 @@ $(function() {
       }
 
       if ($('#player1').hasClass('active')) {
-        $('#player1').removeClass('active');
-        $('#player2').addClass('active');
+        // $('#player1').removeClass('active');
+        // $('#player2').addClass('active');
 
-        activePlayer('player2');
+        // activePlayer('player2');
         $(this).addClass('box-filled-1');
 
         checkForTie();
+        playComputer();
 
       } else {
-        $('#player2').removeClass('active');
-        $('#player1').addClass('active');
-
-        activePlayer('player1');
-        $(this).addClass('box-filled-2');
-
-        checkForTie();
+        // $('#player2').removeClass('active');
+        // $('#player1').addClass('active');
+        //
+        // activePlayer('player1');
+        // $(this).addClass('box-filled-2');
+        //
+        // // playComputer();
+        //
+        // checkForTie();
       } //if statement
 
     });
@@ -186,5 +189,24 @@ $(function() {
 
     }//if statement
   } //checkForTie()
+
+  //Add programming to support playing against the computer.
+  //Only one player plays, the other is controlled by your
+  //programming.
+  function playComputer() {
+    if (checkWin('box-filled-1') === false) {
+
+      var random = Math.floor(Math.random() * 9);
+      var randomDiv = $('.boxes li').eq(random);
+
+      if ($(randomDiv).hasClass('box-filled-1') || $(randomDiv).hasClass('box-filled-2')) {
+        playComputer();
+      } else {
+        $(randomDiv).addClass('box-filled-2');
+        checkForTie();
+      }
+
+    } //if statement
+  } //playComputer()
 
 });

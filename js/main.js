@@ -4,7 +4,7 @@ $(function() {
 
   //When the page loads, the startup screen appears.
   //Let a player add their name before the game starts
-  $('body').html('<div class="screen screen-start" id="start"><header><h1>Tic Tac Toe</h1><input type="text" placeholder="Your name"><a href="#" class="button">Start game</a></header></div>');
+  $('body').html('<div class="screen screen-start" id="start"><header><label for="input">Your Name:</label><input type="text" id="input"><h1>Tic Tac Toe</h1><a href="#" class="button start-game">Start game</a><a href="#" class="button play-computer">Play Computer</a></header></div>');
 
   //when the player clicks the start button the start
   //screen disappears, the board appears,
@@ -39,7 +39,11 @@ $(function() {
         '<ul class="boxes"><li class="box"></li><li class="box"></li><li class="box"></li><li class="box"></li><li class="box"></li><li class="box"></li><li class="box"></li><li class="box"></li> <li class="box"></li></ul>' +
       '</div>');
 
-      togglePlayer();
+      if ($(this).hasClass('start-game') || userSecondValue === '') {
+        togglePlayer();
+      } else if ($(this).hasClass('play-computer') || userSecondValue === 'Computer') {
+        playComputer();
+      }
 
     });
   } //newGame()
@@ -62,6 +66,39 @@ $(function() {
       }
 
       if ($('#player1').hasClass('active')) {
+        $('#player1').removeClass('active');
+        $('#player2').addClass('active');
+
+        activePlayer('player2');
+        $(this).addClass('box-filled-1');
+
+        checkForTie();
+
+      } else {
+        $('#player2').removeClass('active');
+        $('#player1').addClass('active');
+
+        activePlayer('player1');
+        $(this).addClass('box-filled-2');
+
+        checkForTie();
+      } //if statement
+
+    });
+  } //togglePlayer()
+
+  function playComputer() {
+    $('span.username2').html('Computer');
+    $('#player1').addClass('active');
+    activePlayer('player1');
+
+    $('.boxes li').on('click', function() {
+      //Players can only click on empty squares.
+      if ($(this).hasClass('box-filled-1') || $(this).hasClass('box-filled-2')) {
+        return;
+      }
+
+      if ($('#player1').hasClass('active')) {
         // $('#player1').removeClass('active');
         // $('#player2').addClass('active');
 
@@ -69,22 +106,12 @@ $(function() {
         $(this).addClass('box-filled-1');
 
         checkForTie();
-        playComputer();
+        moveComputer();
 
-      } else {
-        // $('#player2').removeClass('active');
-        // $('#player1').addClass('active');
-        //
-        // activePlayer('player1');
-        // $(this).addClass('box-filled-2');
-        //
-        // // playComputer();
-        //
-        // checkForTie();
-      } //if statement
+      }//if statement
 
     });
-  } //togglePlayer()
+  } //playComputer()
 
   //When the current player mouses over an empty square on the board, it's symbol the X or O should appear on the square.
   function activePlayer(player) {
@@ -193,14 +220,14 @@ $(function() {
   //Add programming to support playing against the computer.
   //Only one player plays, the other is controlled by your
   //programming.
-  function playComputer() {
+  function moveComputer() {
     if (checkWin('box-filled-1') === false) {
 
       var random = Math.floor(Math.random() * 9);
       var randomDiv = $('.boxes li').eq(random);
 
       if ($(randomDiv).hasClass('box-filled-1') || $(randomDiv).hasClass('box-filled-2')) {
-        playComputer();
+        moveComputer();
       } else {
         $(randomDiv).addClass('box-filled-2');
         checkForTie();

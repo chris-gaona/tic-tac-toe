@@ -47,20 +47,25 @@ h1 {
     .screen-start h1 {
       font-size: 6em; }
     .screen-start .button {
+      margin: 0 5px;
       color: #54D17A; }
     .screen-start h1 + .button {
       margin-top: 5em; }
     .screen-start input {
       width: auto;
       margin-right: 10px;
-      margin-top: 100px;
+      /*margin-top: 100px;*/
+      margin-bottom: 70px;
       padding: 1.25em 1em;
       background: #fff;
       border-radius: 4px;
       box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
       outline: none;
       border: none;
-      text-align: center;
+    }
+    .screen-start label {
+      color: #fff;
+      margin-right: 10px;
     }
   .screen-win p {
     font-size: 6em;
